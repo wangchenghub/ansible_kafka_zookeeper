@@ -1,0 +1,14 @@
+# 基础目录：
+base_dir: /data/zk
+
+# kafka日志目录:
+kafka_logs: /data/zk/zookeeper/logs
+
+# kafka配置目录:
+kafka_conf: /data/zk/kafka/config
+
+# 主机 apt 下载源配置：
+sources_list: deb [trusted=yes] http://172.16.105.150:81/ soft/
+
+# 安装包软连接路径：
+kafka_pack_link_path: /data/zk/kafka

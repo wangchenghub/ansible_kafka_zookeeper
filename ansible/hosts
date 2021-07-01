@@ -1,0 +1,10 @@
+[kafka]
+kafka_node1 ansible_host=172.16.150.181
+kafka_node2 ansible_host=172.16.150.182
+kafka_node3 ansible_host=172.16.150.183
+
+[zookeeper]
+zookeeper_node1 ansible_host=172.16.150.181
+zookeeper_node2 ansible_host=172.16.150.182
+zookeeper_node3 ansible_host=172.16.150.183
+

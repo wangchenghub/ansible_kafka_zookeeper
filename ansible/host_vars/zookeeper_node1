@@ -1,0 +1,12 @@
+tickTime: 2000
+initLimit: 10
+syncLimit: 5
+clientPort: 2181
+zoo_server1: server.1
+zoo_addr1: 172.16.150.181:2888:3888
+zoo_server2: server.2
+zoo_addr2: 172.16.150.182:2888:3888
+zoo_server3: server.3
+zoo_addr3: 172.16.150.183:2888:3888
+
+myid: 1

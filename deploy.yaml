@@ -1,0 +1,18 @@
+
+# zookeeper 集群部署：
+- name: zookeeper
+  gather_facts: false
+  hosts: zookeeper
+  remote_user: "root"
+  roles:
+    - zookeeper
+
+
+# kafka 集群部署：
+- name: kafka
+  gather_facts: false
+  hosts: kafka
+  remote_user: "root"
+  roles:
+    - kafka
+

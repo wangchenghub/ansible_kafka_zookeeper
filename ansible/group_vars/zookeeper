@@ -1,0 +1,14 @@
+# 基础目录：
+base_dir: /data/zk
+
+# zookeeper数据目录:
+zookeeper_data: /data/zk/zookeeper/data
+
+# zookeeper日志目录:
+zookeeper_logs: /data/zk/zookeeper/logs
+
+# zookeeper配置目录:
+zookeeper_conf: /data/zk/zookeeper/conf
+
+# 安装包软连接路径：
+zookeeper_pack_link_path: /data/zk/zookeeper

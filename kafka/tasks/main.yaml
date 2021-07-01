@@ -1,0 +1,71 @@
+
+- name: No.10 --> 推送安装包
+  ansible.builtin.copy:
+    src: kafka_2.13-2.8.0.tgz
+    dest: /opt/
+    mode: '0755'
+
+
+- name: No.20 --> 解压安装包
+  unarchive:
+    src: kafka_2.13-2.8.0.tgz
+    dest: /opt/
+    remote_src: 
+        no
+
+- name: No.30 --> 创建基础目录
+  ansible.builtin.file:
+    path: "{{base_dir}}"
+    state: directory
+    mode: "0644"
+
+
+- name: N0.40 --> 判断链接文件
+  stat:
+    path: "{{base_dir}}/kafka"
+  register: file_status
+
+
+- name: N0.50 --> 删除链接文件
+  file:
+    path: "{{base_dir}}/kafka"
+    state: absent
+  when: file_status.stat.exists == True
+
+
+- name: N0.60 --> 创建链接目录
+  ansible.builtin.file:
+    src: /opt/kafka_2.13-2.8.0
+    dest: "{{base_dir}}/kafka"
+    state: link
+
+
+- name: No.70 --> 创建日志目录
+  ansible.builtin.file:
+    path: "{{kafka_logs}}"
+    state: directory
+    mode: "0644"
+
+
+- name: No.80 --> 创建配置目录
+  ansible.builtin.file:
+    path: "{{kafka_conf}}"
+    state: directory
+    mode: "0644"
+
+
+- name: No.90 --> 推送配置文件
+  ansible.builtin.template:
+    src: server.properties.j2
+    dest: "{{kafka_conf}}/server.properties"
+    mode: '0644'
+
+
+# - name: No.100 -- 停止 kafka 集群
+#   ansible.builtin.shell: "{{base_dir}}/kafka/bin/kafka-server-stop.sh {{kafka_conf}}/server.properties"
+#   ignore_errors: yes
+
+
+- name: No.110 -- 启动 kafka 集群
+  ansible.builtin.shell: "{{base_dir}}/kafka/bin/kafka-server-start.sh -daemon {{kafka_conf}}/server.properties"
+

@@ -1,0 +1,76 @@
+
+- name: No.10 --> 推送安装包
+  ansible.builtin.copy:
+    src: apache-zookeeper-3.7.0-bin.tar.gz
+    dest: /opt/
+    mode: '0755'
+
+
+- name: No.20 --> 解压安装包
+  unarchive:
+    src: apache-zookeeper-3.7.0-bin.tar.gz
+    dest: /opt/
+    remote_src: 
+        no
+
+
+- name: No.30 --> 创建基础目录
+  ansible.builtin.file:
+    path: "{{base_dir}}"
+    state: directory
+    mode: "0644"
+
+
+- name: N0.40 --> 判断链接文件
+  stat:
+    path: "{{base_dir}}/zookeeper"
+  register: file_status
+
+
+- name: N0.50 --> 删除链接文件
+  file:
+    path: "{{base_dir}}/zookeeper"
+    state: absent
+  when: file_status.stat.exists == True
+
+
+- name: N0.60 --> 创建链接目录
+  ansible.builtin.file:
+    src: /opt/apache-zookeeper-3.7.0-bin
+    dest: "{{base_dir}}/zookeeper"
+    state: link
+
+
+- name: No.70 --> 创建日志目录
+  ansible.builtin.file:
+    path: "{{zookeeper_logs}}"
+    state: directory
+    mode: "0644"
+
+
+- name: No.80 --> 创建数据目录
+  ansible.builtin.file:
+    path: "{{zookeeper_data}}"
+    state: directory
+    mode: "0644"
+
+
+- name: No.90 --> 推送配置文件
+  ansible.builtin.template:
+    src: zoo.cfg.j2
+    dest: "{{zookeeper_conf}}/zoo.cfg"
+    mode: '0644'
+    
+
+- name: No.100 --> 生成集群身份
+  ansible.builtin.copy:
+    content: "{{myid}}"
+    dest: "{{zookeeper_data}}/myid"
+
+
+# - name: No.110 -- 停止 zookeeper 集群
+#   ansible.builtin.shell: "{{base_dir}}/zookeeper/bin/zkServer.sh stop"
+#   ignore_errors: yes
+
+- name: No.120 -- 启动 zookeeper 集群
+  ansible.builtin.shell: "{{base_dir}}/zookeeper/bin/zkServer.sh start"
