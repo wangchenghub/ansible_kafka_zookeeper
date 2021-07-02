@@ -68,9 +68,9 @@
     dest: "{{zookeeper_data}}/myid"
 
 
-# - name: No.110 -- 停止 zookeeper 集群
-#   ansible.builtin.shell: "{{base_dir}}/zookeeper/bin/zkServer.sh stop"
-#   ignore_errors: yes
+- name: No.110 --> 安装 java8 sdk
+  ansible.builtin.shell: "apt install -y openjdk-8-jre-headless"
+
 
 - name: No.120 -- 启动 zookeeper 集群
   ansible.builtin.shell: "{{base_dir}}/zookeeper/bin/zkServer.sh start"

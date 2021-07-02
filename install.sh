@@ -2,11 +2,6 @@
 
 basepath=`pwd`
 
-# 节点配置：
-sources="deb [trusted=yes] http://172.16.105.150:81/ soft/"
-nodes="172.16.150.181","172.16.150.182","172.16.150.183"
-
-
 # 检查命令执行情况：
 function is_fail(){
     if [[ $1 -ne 0 ]];then
@@ -14,50 +9,6 @@ function is_fail(){
         [[ $1 -eq 1 ]] && exit 1;
     fi
 }
-
-
-# 修改内网apt源：
-function modify(){
-    hostname=$1
-    username="root"
-
-    # step: 1 --> 删除源文件
-    ssh $username@$hostname "rm -vrf /etc/apt/sources.list"
-
-    # step: 2 --> 生成源文件
-    ssh $username@$hostname "echo $sources > /etc/apt/sources.list" 
-}
-
-
-# 下载依赖包：
-function download(){
-    hostname=$1
-    username="root"
-
-    # step: 1 --> apt update
-    ssh $username@$hostname "apt update"
-
-    # step: 2 --> apt install xxx
-    ssh $username@$hostname "apt install -y $2"
-
-}
-
-
-# 加载主机：
-IFS=',' arr=($nodes)
-
-## 换源：
-#for x in ${arr[@]}; do
-#  modify $x $sources
-#  is_fail $?
-#done
-
-
-# 下载 java sdk：
-for x in ${arr[@]}; do
-  download $x "openjdk-8-jre-headless"
-  is_fail $?
-done
 
 
 # 移植python虚拟环境
