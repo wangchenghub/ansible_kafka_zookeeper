@@ -46,11 +46,11 @@ function download(){
 # 加载主机：
 IFS=',' arr=($nodes)
 
-# 换源：
-for x in ${arr[@]}; do
-  modify $x $sources
-  is_fail $?
-done
+## 换源：
+#for x in ${arr[@]}; do
+#  modify $x $sources
+#  is_fail $?
+#done
 
 
 # 下载 java sdk：
